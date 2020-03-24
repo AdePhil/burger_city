@@ -13,8 +13,8 @@ class _SplashScreenState extends State<SplashScreen> {
   int _current = 0;
   var _splashMessage = [
     {'text1': 'World\'s', 'text2': 'Gratest', 'text3': 'Burgers'},
-    {'text1': 'World\'s', 'text2': 'Sweetest', 'text3': 'Burger'},
-    {'text1': 'World\'s', 'text2': 'Most Amazing', 'text3': 'Burger'},
+    {'text1': 'World\'s', 'text2': 'Sweetest', 'text3': 'Burgers'},
+    {'text1': 'World\'s', 'text2': 'Most Amazing', 'text3': 'Burgers'},
   ];
   @override
   Widget build(BuildContext context) {
@@ -50,6 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   viewportFraction: 1.0,
                   autoPlay: true,
                   aspectRatio: 2.0,
+                  autoPlayInterval: Duration(seconds: 2),
                   onPageChanged: (index) => setState(() {
                     _current = index;
                   }),
@@ -65,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                 text: item['text1'],
                                 style: GoogleFonts.nunito(
                                   color: Colors.white,
-                                  fontSize: 31,
+                                  fontSize: 40,
                                   fontWeight: FontWeight.bold,
                                   height: 35 / 31,
                                 ),
