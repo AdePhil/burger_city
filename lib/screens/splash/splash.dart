@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:burger_city/screens/login.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key key}) : super(key: key);
@@ -121,7 +122,10 @@ class _SplashScreenState extends State<SplashScreen> {
                   margin: const EdgeInsets.only(top: 30.0, left: 30, right: 30),
                   height: 48,
                   child: RaisedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Login()));
+                      },
                       textColor: Colors.white,
                       color: Color(0xffFF9F1C),
                       padding: const EdgeInsets.all(8.0),
