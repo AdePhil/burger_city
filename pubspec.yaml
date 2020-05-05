@@ -27,6 +27,7 @@ dependencies:
   google_fonts:
   carousel_slider:
   flutter_svg:
+  firebase_auth:
 
 dev_dependencies:
   flutter_test:

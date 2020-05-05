@@ -1,42 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:burger_city/screens/signup.dart';
-import 'package:burger_city/services/auth.dart';
-import 'package:burger_city/screens/home.dart';
+import 'package:burger_city/screens/login.dart';
 
-class Login extends StatefulWidget {
-  BaseAuth auth = new Auth();
-  @override
-  _LoginState createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
+class SignUp extends StatelessWidget {
   final _formKey = new GlobalKey<FormState>();
-  String _email = '';
-  String _password = '';
-  String _errorMessage = '';
-  bool _isLoading = false;
-
-  login() async {
-    setState(() {
-      this._isLoading = true;
-    });
-    try {
-      _formKey.currentState.save();
-
-      String userId = await widget.auth.signIn(_email, _password);
-      print(userId);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-    } catch (e) {
-      print(e.message);
-    } finally {
-      setState(() {
-        this._isLoading = false;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +48,7 @@ class _LoginState extends State<Login> {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      "Login to continue Burger City",
+                      "Sign up to continue Burger City",
                       style: GoogleFonts.nunito(
                         color: Colors.white,
                         fontSize: 16,
@@ -105,20 +73,18 @@ class _LoginState extends State<Login> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(6))),
                               child: TextFormField(
-                                decoration: InputDecoration(
-                                    icon: SvgPicture.asset(
-                                      'assets/icons/mail-icon.svg',
-                                    ),
-                                    border: InputBorder.none,
-                                    hintText: 'Email Address'),
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Please enter some text';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) => _email = value.trim(),
-                              ),
+                                  decoration: InputDecoration(
+                                      icon: SvgPicture.asset(
+                                        'assets/icons/mail-icon.svg',
+                                      ),
+                                      border: InputBorder.none,
+                                      hintText: 'Email Address'),
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Please enter some text';
+                                    }
+                                    return null;
+                                  }),
                             ),
                             SizedBox(
                               height: 18,
@@ -131,85 +97,63 @@ class _LoginState extends State<Login> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(3))),
                               child: TextFormField(
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                    icon: SvgPicture.asset(
-                                      'assets/icons/lock-icon.svg',
-                                    ),
-                                    border: InputBorder.none,
-                                    hintText: 'Password'),
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Please enter some text';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) => _password = value.trim(),
-                              ),
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                      icon: SvgPicture.asset(
+                                        'assets/icons/lock-icon.svg',
+                                      ),
+                                      border: InputBorder.none,
+                                      hintText: 'Username'),
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Please enter some text';
+                                    }
+                                    return null;
+                                  }),
                             ),
                             SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  "Remember Me",
-                                  style: GoogleFonts.nunito(
-                                    color: Colors.white.withOpacity(0.66),
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w600,
-                                    height: 35 / 31,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Text(
-                                    "Forgot password?",
-                                    style: GoogleFonts.nunito(
-                                      color: Colors.white.withOpacity(0.66),
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                      height: 35 / 31,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 0),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(3))),
+                              child: TextFormField(
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                      icon: SvgPicture.asset(
+                                        'assets/icons/lock-icon.svg',
+                                      ),
+                                      border: InputBorder.none,
+                                      hintText: 'Password'),
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Please enter some text';
+                                    }
+                                    return null;
+                                  }),
                             ),
+                            SizedBox(height: 20),
                             Container(
                               width: MediaQuery.of(context).size.width,
                               margin: const EdgeInsets.only(top: 35.0),
                               height: 48,
                               child: RaisedButton(
-                                  onPressed: () {
-                                    login();
-                                  },
+                                  onPressed: () {},
                                   textColor: Colors.white,
                                   color: Theme.of(context).primaryColor,
                                   padding: const EdgeInsets.all(8.0),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(6)),
-                                  child: _isLoading
-                                      ? Container(
-                                          width: 20,
-                                          height: 20,
-                                          child: Center(
-                                            child: CircularProgressIndicator(
-                                              strokeWidth: 2,
-                                              backgroundColor: Colors.white,
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                      Theme.of(context)
-                                                          .primaryColor),
-                                            ),
-                                          ),
-                                        )
-                                      : new Text(
-                                          "Log In",
-                                          style: GoogleFonts.nunito(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w900,
-                                          ),
-                                        )),
+                                  child: new Text(
+                                    "Sign Up",
+                                    style: GoogleFonts.nunito(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w900,
+                                    ),
+                                  )),
                             ),
                           ],
                         ),
@@ -230,9 +174,9 @@ class _LoginState extends State<Login> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => SignUp()));
+                                      builder: (context) => Login()));
                             },
-                            child: Text("New user? Sign up",
+                            child: Text("Have an account? Login",
                                 style: TextStyle(
                                     color: Theme.of(context).primaryColor)),
                           ),
@@ -262,6 +206,44 @@ class _LoginState extends State<Login> {
                 )
               ],
             )),
+        // Positioned(
+        //     bottom: 150,
+        //     left: 0,
+        //     width: MediaQuery.of(context).size.width,
+        //     child: Row(
+        //       mainAxisAlignment: MainAxisAlignment.center,
+        //       mainAxisSize: MainAxisSize.max,
+        //       children: <Widget>[
+        //         GestureDetector(
+        //           onTap: () {},
+        //           child: Text("New user? Sign up",
+        //               style: TextStyle(
+        //                 color: Theme.of(context).primaryColor
+        //               )),
+        //         ),
+        //       ],
+        //     )),
+        // Positioned(
+        //     bottom: 60,
+        //     left: 0,
+        //     width: MediaQuery.of(context).size.width,
+        //     child: Row(
+        //       mainAxisAlignment: MainAxisAlignment.center,
+        //       mainAxisSize: MainAxisSize.max,
+        //       children: <Widget>[
+        //         Container(
+        //           width: MediaQuery.of(context).size.width * 0.7,
+        //           child: Text(
+        //               "By signing up you indicate that you have read and agreed to the Patch Terms of Service",
+        //               textAlign: TextAlign.center,
+        //               style: GoogleFonts.nunito(
+        //                 color: Colors.white,
+        //                 fontSize: 12,
+        //                 fontWeight: FontWeight.w500,
+        //               )),
+        //         ),
+        //       ],
+        //     ))
       ]),
     ));
   }

@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.nunitoTextTheme(
           Theme.of(context).textTheme,
         ),
-        primarySwatch: Colors.blue,
+        primaryColor: Color(0xffFF9F1C),
       ),
       home: SplashScreen(),
     );

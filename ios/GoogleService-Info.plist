@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1022213606772-pqjtur0t04gai98cc6qtftis13fp519p.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1022213606772-pqjtur0t04gai98cc6qtftis13fp519p</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBsqCE7yZ51gjUVlBKk5bP03VzdiCXTGzA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1022213606772</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.adephil.burger-city</string>
+	<key>PROJECT_ID</key>
+	<string>burger-city-c448f</string>
+	<key>STORAGE_BUCKET</key>
+	<string>burger-city-c448f.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1022213606772:ios:0cde5ad9c50bfbc52eb021</string>
+	<key>DATABASE_URL</key>
+	<string>https://burger-city-c448f.firebaseio.com</string>
+</dict>
+</plist>
