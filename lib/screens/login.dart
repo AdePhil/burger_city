@@ -29,6 +29,7 @@ class _LoginState extends State<Login> {
       print(userId);
       Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
     } catch (e) {
+      print(e.status);
       print(e.message);
     } finally {
       setState(() {

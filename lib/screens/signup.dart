@@ -1,10 +1,43 @@
+import 'package:burger_city/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:burger_city/screens/login.dart';
+import 'package:burger_city/services/auth.dart';
 
-class SignUp extends StatelessWidget {
+class SignUp extends StatefulWidget {
+  BaseAuth auth = new Auth();
+  @override
+  _SignUpState createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
   final _formKey = new GlobalKey<FormState>();
+  String _email = '';
+  String _password = '';
+  String _username = '';
+  String _errorMessage = '';
+  bool _isLoading = false;
+
+  signUp() async {
+    setState(() {
+      this._isLoading = true;
+    });
+    try {
+      _formKey.currentState.save();
+      print("here $_email $_password");
+      String userId = await widget.auth.signUp(_email, _password, _username);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      print(userId);
+    } catch (e) {
+      print(e.message);
+    } finally {
+      setState(() {
+        this._isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,6 +106,9 @@ class SignUp extends StatelessWidget {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(6))),
                               child: TextFormField(
+                                  onSaved: (value) {
+                                    this._email = value.trim();
+                                  },
                                   decoration: InputDecoration(
                                       icon: SvgPicture.asset(
                                         'assets/icons/mail-icon.svg',
@@ -97,7 +133,9 @@ class SignUp extends StatelessWidget {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(3))),
                               child: TextFormField(
-                                  obscureText: true,
+                                  onSaved: (value) {
+                                    this._username = value.trim();
+                                  },
                                   decoration: InputDecoration(
                                       icon: SvgPicture.asset(
                                         'assets/icons/lock-icon.svg',
@@ -121,6 +159,9 @@ class SignUp extends StatelessWidget {
                                       BorderRadius.all(Radius.circular(3))),
                               child: TextFormField(
                                   obscureText: true,
+                                  onSaved: (value) {
+                                    this._password = value.trim();
+                                  },
                                   decoration: InputDecoration(
                                       icon: SvgPicture.asset(
                                         'assets/icons/lock-icon.svg',
@@ -140,20 +181,35 @@ class SignUp extends StatelessWidget {
                               margin: const EdgeInsets.only(top: 35.0),
                               height: 48,
                               child: RaisedButton(
-                                  onPressed: () {},
+                                  onPressed: signUp,
                                   textColor: Colors.white,
                                   color: Theme.of(context).primaryColor,
                                   padding: const EdgeInsets.all(8.0),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(6)),
-                                  child: new Text(
-                                    "Sign Up",
-                                    style: GoogleFonts.nunito(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w900,
-                                    ),
-                                  )),
+                                  child: _isLoading
+                                      ? Container(
+                                          width: 20,
+                                          height: 20,
+                                          child: Center(
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                              backgroundColor: Colors.white,
+                                              valueColor:
+                                                  AlwaysStoppedAnimation<Color>(
+                                                      Theme.of(context)
+                                                          .primaryColor),
+                                            ),
+                                          ),
+                                        )
+                                      : new Text(
+                                          "Sign Up",
+                                          style: GoogleFonts.nunito(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w900,
+                                          ),
+                                        )),
                             ),
                           ],
                         ),
