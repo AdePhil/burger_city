@@ -37,15 +37,17 @@ class Auth implements BaseAuth {
   }
 
   Future<String> signUp(String email, String password, String username) async {
-    AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: password);
-    FirebaseUser user = result.user;
     final QuerySnapshot docsSnapshot =
         await userRef.where("username", isEqualTo: username).getDocuments();
     if (docsSnapshot.documents.isNotEmpty) {
       return Future.error(CustomError("username already exists"),
           StackTrace.fromString("This is its trace"));
     }
+
+    AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    FirebaseUser user = result.user;
+
     await userRef.document(user.uid).setData(
         {"email": email, "username": username, "timestamp": timestamp});
     return user.uid;

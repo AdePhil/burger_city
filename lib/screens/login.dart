@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:burger_city/screens/signup.dart';
 import 'package:burger_city/services/auth.dart';
 import 'package:burger_city/screens/home.dart';
+import 'package:burger_city/utils/alert.dart';
 
 class Login extends StatefulWidget {
   BaseAuth auth = new Auth();
@@ -29,8 +30,8 @@ class _LoginState extends State<Login> {
       print(userId);
       Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
     } catch (e) {
-      print(e.status);
-      print(e.message);
+      Alert.showErrorAlert(
+          context, 'Sorry', "Invalid email password combination");
     } finally {
       setState(() {
         this._isLoading = false;

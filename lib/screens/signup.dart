@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:burger_city/screens/login.dart';
 import 'package:burger_city/services/auth.dart';
+import 'package:burger_city/utils/alert.dart';
 
 class SignUp extends StatefulWidget {
   BaseAuth auth = new Auth();
@@ -18,8 +19,15 @@ class _SignUpState extends State<SignUp> {
   String _username = '';
   String _errorMessage = '';
   bool _isLoading = false;
+  bool _autoValidate = false;
 
   signUp() async {
+    if (!isFormValid()) {
+      setState(() {
+        _autoValidate = true;
+      });
+      return;
+    }
     setState(() {
       this._isLoading = true;
     });
@@ -31,11 +39,26 @@ class _SignUpState extends State<SignUp> {
       print(userId);
     } catch (e) {
       print(e.message);
+      Alert.showErrorAlert(context, 'Sorry', e.message);
     } finally {
       setState(() {
         this._isLoading = false;
       });
     }
+  }
+
+  isFormValid() {
+    return _formKey.currentState.validate();
+  }
+
+  Widget buildCustomPrefixIcon(SvgPicture svg) {
+    return Container(
+      width: 0,
+      height: 10,
+      padding: EdgeInsets.only(left: 10),
+      alignment: Alignment(0, 0.0),
+      child: svg,
+    );
   }
 
   @override
@@ -91,6 +114,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                     Form(
                       key: _formKey,
+                      autovalidate: _autoValidate,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 30, right: 30),
                         child: Column(
@@ -98,84 +122,140 @@ class _SignUpState extends State<SignUp> {
                             SizedBox(
                               height: 30,
                             ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 0),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(6))),
+                            SizedBox(
+                              height: 80,
                               child: TextFormField(
                                   onSaved: (value) {
-                                    this._email = value.trim();
+                                    this._email = value.trim().toLowerCase();
                                   },
                                   decoration: InputDecoration(
-                                      icon: SvgPicture.asset(
-                                        'assets/icons/mail-icon.svg',
+                                      errorStyle: TextStyle(
+                                          color: Colors.white, fontSize: 10),
+                                      isDense: true,
+                                      focusedBorder: new OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          width: 0.5,
+                                          style: BorderStyle.none,
+                                        ),
+                                        borderRadius: const BorderRadius.all(
+                                          const Radius.circular(6.0),
+                                        ),
                                       ),
-                                      border: InputBorder.none,
+                                      border: new OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          width: 0.5,
+                                          style: BorderStyle.none,
+                                        ),
+                                        borderRadius: const BorderRadius.all(
+                                          const Radius.circular(6.0),
+                                        ),
+                                      ),
+                                      prefixIcon: buildCustomPrefixIcon(
+                                          SvgPicture.asset(
+                                        'assets/icons/mail-icon.svg',
+                                        fit: BoxFit.cover,
+                                      )),
+                                      fillColor: Colors.white,
+                                      filled: true,
                                       hintText: 'Email Address'),
                                   validator: (value) {
                                     if (value.isEmpty) {
-                                      return 'Please enter some text';
+                                      return 'Please enter a valid email';
                                     }
                                     return null;
                                   }),
                             ),
+                            // SizedBox(
+                            //   height: 18,
+                            // ),
                             SizedBox(
-                              height: 18,
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 0),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(3))),
+                              height: 80,
                               child: TextFormField(
                                   onSaved: (value) {
-                                    this._username = value.trim();
+                                    this._username = value.trim().toLowerCase();
                                   },
                                   decoration: InputDecoration(
-                                      icon: SvgPicture.asset(
-                                        'assets/icons/lock-icon.svg',
+                                      errorStyle: TextStyle(
+                                          color: Colors.white, fontSize: 10),
+                                      focusedBorder: new OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          width: 0.5,
+                                          style: BorderStyle.none,
+                                        ),
+                                        borderRadius: const BorderRadius.all(
+                                          const Radius.circular(6.0),
+                                        ),
                                       ),
-                                      border: InputBorder.none,
+                                      isDense: true,
+                                      border: new OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          width: 0.5,
+                                          style: BorderStyle.none,
+                                        ),
+                                        borderRadius: const BorderRadius.all(
+                                          const Radius.circular(6.0),
+                                        ),
+                                      ),
+                                      prefixIcon: buildCustomPrefixIcon(
+                                          SvgPicture.asset(
+                                        'assets/icons/lock-icon.svg',
+                                        fit: BoxFit.cover,
+                                      )),
+                                      fillColor: Colors.white,
+                                      filled: true,
                                       hintText: 'Username'),
                                   validator: (value) {
                                     if (value.isEmpty) {
-                                      return 'Please enter some text';
+                                      return 'Please enter a valid username';
                                     }
                                     return null;
                                   }),
                             ),
-                            SizedBox(height: 20),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 0),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(3))),
+                            // SizedBox(height: 20),
+                            SizedBox(
+                              height: 80,
                               child: TextFormField(
-                                  obscureText: true,
                                   onSaved: (value) {
                                     this._password = value.trim();
                                   },
+                                  obscureText: true,
                                   decoration: InputDecoration(
-                                      icon: SvgPicture.asset(
-                                        'assets/icons/lock-icon.svg',
+                                      errorStyle: TextStyle(
+                                          color: Colors.white, fontSize: 10),
+                                      isDense: true,
+                                      focusedBorder: new OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          width: 0.5,
+                                          style: BorderStyle.none,
+                                        ),
+                                        borderRadius: const BorderRadius.all(
+                                          const Radius.circular(6.0),
+                                        ),
                                       ),
-                                      border: InputBorder.none,
+                                      border: new OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          width: 0.5,
+                                          style: BorderStyle.none,
+                                        ),
+                                        borderRadius: const BorderRadius.all(
+                                          const Radius.circular(6.0),
+                                        ),
+                                      ),
+                                      prefixIcon: buildCustomPrefixIcon(
+                                          SvgPicture.asset(
+                                        'assets/icons/lock-icon.svg',
+                                        fit: BoxFit.cover,
+                                      )),
+                                      fillColor: Colors.white,
+                                      filled: true,
                                       hintText: 'Password'),
                                   validator: (value) {
                                     if (value.isEmpty) {
-                                      return 'Please enter some text';
+                                      return 'Please enter a valid passord';
                                     }
                                     return null;
                                   }),
                             ),
-                            SizedBox(height: 20),
                             Container(
                               width: MediaQuery.of(context).size.width,
                               margin: const EdgeInsets.only(top: 35.0),
@@ -304,3 +384,5 @@ class _SignUpState extends State<SignUp> {
     ));
   }
 }
+
+class d {}
