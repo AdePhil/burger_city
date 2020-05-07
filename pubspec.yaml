@@ -29,6 +29,7 @@ dependencies:
   flutter_svg:
   firebase_auth:
   cloud_firestore: ^0.13.5
+  splashscreen:
 
 dev_dependencies:
   flutter_test:
